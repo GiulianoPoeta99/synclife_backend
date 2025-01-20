@@ -27,6 +27,7 @@ class PasswordValidator:
 
         return password
 
+    # TODO: estos 2 metodos irian en el VO
     @staticmethod
     def encrypt_password(password: str) -> str:
         """Encripta la contraseña si aún no está encriptada."""

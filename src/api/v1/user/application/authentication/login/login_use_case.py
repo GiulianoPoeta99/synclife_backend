@@ -16,7 +16,7 @@ class LoginUseCase:
         email = Email(dto.email)
 
         user = UserRepositoryValidator.user_found(
-            self.repository.find_by_email(email=email, validate=False)
+            self.repository.find_by_email(email=email, validate=False), True
         )
 
         if not user.password.check_password(dto.password):
