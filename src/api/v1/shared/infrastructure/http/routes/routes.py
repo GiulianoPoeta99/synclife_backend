@@ -4,6 +4,7 @@ from fastapi import APIRouter, Header, HTTPException
 
 from src.api.v1.inventory.infrastructure.http.routes import inventory_router
 from src.api.v1.notes.infrastructure.http.routes import note_router, tag_router
+from src.api.v1.reminder.infrastructure.http.routes import reminder_router
 from src.api.v1.user.infrastructure.http.routes import user_router
 from src.api.v1.user.infrastructure.http.services import InMemorySessionService
 
@@ -13,6 +14,7 @@ router.include_router(user_router)
 router.include_router(inventory_router)
 router.include_router(note_router)
 router.include_router(tag_router)
+router.include_router(reminder_router)
 
 
 @router.get("/check/validate-session", summary="Valida si la sesión es válida")

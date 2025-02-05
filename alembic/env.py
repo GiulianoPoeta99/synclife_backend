@@ -15,6 +15,9 @@ from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_notes_model imp
 from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
     SqlModelTagsModel,
 )
+from src.api.v1.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
+    SqlModelReminderModel,
+)
 from src.api.v1.user.infrastructure.persistence.models.sqlmodel_user_model import (  # noqa: E501
     SqlModelUserModel,
 )
@@ -24,6 +27,7 @@ models = [
     SqlModelInventoryModel,
     SqlModelNotesModel,
     SqlModelTagsModel,
+    SqlModelReminderModel,
 ]
 
 # Cargar variables de entorno

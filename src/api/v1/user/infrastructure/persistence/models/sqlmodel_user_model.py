@@ -24,6 +24,9 @@ if TYPE_CHECKING:
     from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
         SqlModelTagsModel,
     )
+    from src.api.v1.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
+        SqlModelReminderModel,
+    )
 
 
 class SqlModelUserModel(SQLModel, table=True):
@@ -46,6 +49,9 @@ class SqlModelUserModel(SQLModel, table=True):
     )
     notes: Mapped[List["SqlModelNotesModel"]] = Relationship(back_populates="user")
     tags: Mapped[List["SqlModelTagsModel"]] = Relationship(back_populates="user")
+    reminder_items: Mapped[List["SqlModelReminderModel"]] = Relationship(
+        back_populates="user"
+    )
 
     @classmethod
     def from_entity(cls, entity: User) -> "SqlModelUserModel":
