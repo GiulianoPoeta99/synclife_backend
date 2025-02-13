@@ -1,8 +1,6 @@
 from src.api.v1.user.application.authentication.login import LoginUseCase
 from src.api.v1.user.application.authentication.register import RegisterUseCase
-from src.api.v1.user.infrastructure.http.controllers.exeption_handler import (
-    handle_exceptions,
-)
+from src.api.v1.user.infrastructure.http.decorators import handle_exceptions
 from src.api.v1.user.infrastructure.http.dtos.login import (
     PydanticLoginRequestDto,
     PydanticLoginResponseDto,

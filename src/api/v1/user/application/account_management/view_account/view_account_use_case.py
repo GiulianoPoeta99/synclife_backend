@@ -11,11 +11,11 @@ from src.api.v1.user.domain.validators.user_repository_validator import (
 
 class ViewAccountUseCase:
     def __init__(self, repository: UserRepository) -> None:
-        self.repository = repository
+        self.__repository = repository
 
     def execute(self, dto: ViewAccountDto) -> User:
         user = UserRepositoryValidator.user_found(
-            self.repository.find_by_id(Uuid(dto.uuid))
+            self.__repository.find_by_id(Uuid(dto.uuid))
         )
 
         return user

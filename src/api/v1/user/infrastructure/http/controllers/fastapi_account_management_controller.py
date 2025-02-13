@@ -10,9 +10,7 @@ from src.api.v1.user.domain.errors.user_repository_error import (
     UserRepositoryTypeError,
 )
 from src.api.v1.user.domain.value_objects import Email
-from src.api.v1.user.infrastructure.http.controllers.exeption_handler import (
-    handle_exceptions,
-)
+from src.api.v1.user.infrastructure.http.decorators import handle_exceptions
 from src.api.v1.user.infrastructure.http.dtos import (
     PydanticChangePasswordRequestDto,
     PydanticChangePasswordResponseDto,

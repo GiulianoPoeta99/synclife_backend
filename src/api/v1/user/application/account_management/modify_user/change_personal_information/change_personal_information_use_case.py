@@ -13,11 +13,11 @@ from src.api.v1.user.domain.value_objects import Email, FullName, Phone
 
 class ChangePersonalInformationUseCase:
     def __init__(self, repository: UserRepository) -> None:
-        self.repository = repository
+        self.__repository = repository
 
     def execute(self, dto: ChangePersonalInformationDto) -> User:
         user = UserRepositoryValidator.user_found(
-            self.repository.find_by_id(Uuid(dto.uuid))
+            self.__repository.find_by_id(Uuid(dto.uuid))
         )
 
         user.email = Email(dto.email)
@@ -25,7 +25,7 @@ class ChangePersonalInformationUseCase:
         user.birth_date = dto.birth_date
         user.phone = Phone(dto.phone)
 
-        is_updated, user_updated = self.repository.update(user)
+        is_updated, user_updated = self.__repository.update(user)
 
         if not is_updated or user_updated is None:
             raise UserRepositoryError(UserRepositoryTypeError.OPERATION_FAILED)

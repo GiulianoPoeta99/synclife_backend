@@ -12,12 +12,12 @@ from src.api.v1.user.domain.value_objects import Email, FullName, Password, Phon
 
 class RegisterUseCase:
     def __init__(self, repository: UserRepository) -> None:
-        self.repository = repository
+        self.__repository = repository
 
     def execute(self, dto: RegisterDto) -> User:
         email = Email(dto.email)
 
-        UserRepositoryValidator.is_email_already_registered(self.repository, email)
+        UserRepositoryValidator.is_email_already_registered(self.__repository, email)
 
         user = User(
             uuid=Uuid(),
@@ -31,6 +31,6 @@ class RegisterUseCase:
             updated_at=None,
         )
 
-        self.repository.save(user)
+        self.__repository.save(user)
 
         return user

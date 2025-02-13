@@ -10,13 +10,13 @@ from src.api.v1.user.domain.value_objects import Email
 
 class LoginUseCase:
     def __init__(self, repository: UserRepository) -> None:
-        self.repository = repository
+        self.__repository = repository
 
     def execute(self, dto: LoginDto) -> User:
         email = Email(dto.email)
 
         user = UserRepositoryValidator.user_found(
-            self.repository.find_by_email(email=email, validate=False), True
+            self.__repository.find_by_email(email=email, validate=False), True
         )
 
         if not user.password.check_password(dto.password):
