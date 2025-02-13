@@ -1,14 +1,13 @@
-from dataclasses import dataclass
+import re
 
-from src.api.v1.user.domain.validators import PhoneValidator
+from src.api.v1.user.domain.errors import PhoneError, PhoneTypeError
 
 
-@dataclass(frozen=True)
 class Phone:
-    phone: str
+    __phone: str
 
-    def __post_init__(self) -> None:
-        object.__setattr__(self, "phone", PhoneValidator.validate(self.phone))
+    def __init__(self, phone: str) -> None:
+        self.phone = phone
 
     def __repr__(self) -> str:
         return f"<Phone({self.phone})>"
@@ -18,3 +17,14 @@ class Phone:
 
     def __eq__(self, other: object) -> bool:
         return self.phone == other.phone if isinstance(other, Phone) else False
+
+    @property
+    def phone(self) -> str:
+        return self.__phone
+
+    @phone.setter
+    def phone(self, valor: str) -> None:
+        phone_regex = r"^\+?1?\d{9,15}$"
+        if not re.match(phone_regex, valor):
+            raise PhoneError(PhoneTypeError.INVALID_PHONE)
+        self.__phone = valor

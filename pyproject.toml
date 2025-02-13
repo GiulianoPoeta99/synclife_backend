@@ -10,7 +10,6 @@ package-mode = false
 python = "^3.12"
 flake8 = "^7.1.1"
 black = "^24.10.0"
-mypy = "^1.13.0"
 fastapi = { extras = ["standard"], version = "^0.115.4" }
 bcrypt = "^4.2.0"
 sqlmodel = "^0.0.22"
@@ -20,6 +19,19 @@ python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.10"
 zxcvbn = "^4.4.28"
 isort = "^5.13.2"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.15.0"
+types-zxcvbn = "^4.4.1.20240106"
+
+[tool.mypy]
+allow_redefinition = true         # Permite redefinir métodos (útil para @property y @setter)
+disallow_untyped_calls = true     # No permite llamadas a funciones sin anotaciones
+disallow_untyped_defs = true      # Obliga a tipar todas las funciones
+disallow_incomplete_defs = true   # Obliga a definir completamente argumentos y retornos
+no_implicit_optional = true       # No asume Optional implícitamente
+strict_optional = true            # Maneja correctamente los valores None
+ignore_missing_imports = false    # Asegura que todos los imports estén tipados
 
 [tool.black]
 line-length = 88
