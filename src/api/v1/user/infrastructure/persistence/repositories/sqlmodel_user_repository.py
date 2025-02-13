@@ -96,7 +96,7 @@ class SqlModelUserRepository(UserRepository):
 
     def delete(self, user: User) -> Tuple[bool, Optional[User]]:
         statement = select(SqlModelUserModel).where(
-            SqlModelUserModel.id == user.uuid.id
+            SqlModelUserModel.id == user.uuid.uuid
         )
         db_user = self.__db_connection.exec(statement).first()
 

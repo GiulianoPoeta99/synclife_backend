@@ -56,7 +56,7 @@ class SqlModelUserModel(SQLModel, table=True):
     @classmethod
     def from_entity(cls, entity: User) -> "SqlModelUserModel":
         return cls(
-            id=str(entity.uuid.id),
+            id=str(entity.uuid.uuid),
             email=entity.email.email,
             password=entity.password.password,
             first_name=entity.full_name.first_name,
