@@ -6,19 +6,19 @@ from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 from sqlmodel import SQLModel
 
-from src.api.v1.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
+from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
     SqlModelInventoryModel,
 )
-from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
+from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
     SqlModelNotesModel,
 )
-from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
+from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
     SqlModelTagsModel,
 )
-from src.api.v1.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
+from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
     SqlModelReminderModel,
 )
-from src.api.v1.user.infrastructure.persistence.models.sqlmodel_user_model import (  # noqa: E501
+from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (  # noqa: E501
     SqlModelUserModel,
 )
 
