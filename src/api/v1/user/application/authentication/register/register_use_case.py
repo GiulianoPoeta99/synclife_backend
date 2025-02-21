@@ -1,5 +1,7 @@
 from datetime import datetime
+from typing import Tuple
 
+from src.api.v1.shared.domain.repositories import SessionRepository
 from src.api.v1.shared.domain.value_objects import Uuid
 from src.api.v1.user.application.authentication.register.register_dto import RegisterDto
 from src.api.v1.user.domain.entities.user import User
@@ -11,13 +13,18 @@ from src.api.v1.user.domain.value_objects import Email, FullName, Password, Phon
 
 
 class RegisterUseCase:
-    def __init__(self, repository: UserRepository) -> None:
-        self.__repository = repository
+    def __init__(
+        self, user_repository: UserRepository, session_repository: SessionRepository
+    ) -> None:
+        self.__user_repository = user_repository
+        self.__session_repository = session_repository
 
-    def execute(self, dto: RegisterDto) -> User:
+    def execute(self, dto: RegisterDto) -> Tuple[User, str]:
         email = Email(dto.email)
 
-        UserRepositoryValidator.is_email_already_registered(self.__repository, email)
+        UserRepositoryValidator.is_email_already_registered(
+            self.__user_repository, email
+        )
 
         user = User(
             uuid=Uuid(),
@@ -31,6 +38,6 @@ class RegisterUseCase:
             updated_at=None,
         )
 
-        self.__repository.save(user)
+        self.__user_repository.save(user)
 
-        return user
+        return user, self.__session_repository.create_session(user.uuid.uuid)

@@ -8,11 +8,12 @@ class PydanticCreateNoteRequestDto(BaseModel):
     title: str
     content: str
 
-    def to_application(self) -> CreateNoteDto:
+    def to_application(self, session_token: str) -> CreateNoteDto:
         return CreateNoteDto(
             user_id=self.user_id,
             title=self.title,
             content=self.content,
+            session_token=session_token,
         )
 
     @classmethod

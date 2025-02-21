@@ -18,6 +18,7 @@ from .update_note.pydantic_update_note_request_dto import PydanticUpdateNotesReq
 from .update_note.pydantic_update_note_response_dto import (
     PydanticUpdateNotesResponseDto,
 )
+from .view_all import PydanticViewAllNotesResponseDto
 from .view_note.pydantic_view_note_request_dto import PydanticViewNotesRequestDto
 from .view_note.pydantic_view_note_response_dto import PydanticViewNotesResponseDto
 
@@ -36,4 +37,5 @@ __all__ = [
     "PydanticAddTagToNoteResponseDto",
     "PydanticRemoveTagRequestDto",
     "PydanticRemoveTagResponseDto",
+    "PydanticViewAllNotesResponseDto",
 ]

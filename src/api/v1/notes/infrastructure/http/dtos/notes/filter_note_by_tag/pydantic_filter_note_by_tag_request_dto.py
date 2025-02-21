@@ -8,11 +8,5 @@ from src.api.v1.notes.application.note.filter_note_by_tag.filter_note_by_tag_dto
 class PydanticFilterNotesByTagRequestDto(BaseModel):
     tag_id: str
 
-    def to_application(self) -> FilterNotesByTagDTO:
-        return FilterNotesByTagDTO(tag_id=self.tag_id)
-
-    @classmethod
-    def from_application(
-        cls, app_dto: FilterNotesByTagDTO
-    ) -> "PydanticFilterNotesByTagRequestDto":
-        return cls(tag_id=app_dto.tag_id)
+    def to_application(self, session_token: str) -> FilterNotesByTagDTO:
+        return FilterNotesByTagDTO(tag_id=self.tag_id, session_token=session_token)

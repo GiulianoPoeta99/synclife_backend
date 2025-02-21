@@ -3,5 +3,5 @@ from dataclasses import dataclass
 
 @dataclass
 class ViewTagDto:
-    tag_id: str
-    user_id: str
+    tag_uuid: str
+    session_token: str

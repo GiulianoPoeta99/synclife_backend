@@ -9,9 +9,7 @@ class PydanticAddTagToNoteRequestDto(BaseModel):
     note_id: str
     tags: List[str]
 
-    def to_application(self) -> AddTagsDTO:
-        return AddTagsDTO(note_id=self.note_id, tags=self.tags)
-
-    @classmethod
-    def from_application(cls, app_dto: AddTagsDTO) -> "PydanticAddTagToNoteRequestDto":
-        return cls(note_id=app_dto.note_id, tags=app_dto.tags)
+    def to_application(self, session_token: str) -> AddTagsDTO:
+        return AddTagsDTO(
+            note_id=self.note_id, tags=self.tags, session_token=session_token
+        )

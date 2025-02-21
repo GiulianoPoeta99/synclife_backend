@@ -6,3 +6,4 @@ from typing import List
 class AddTagsDTO:
     note_id: str
     tags: List[str]
+    session_token: str

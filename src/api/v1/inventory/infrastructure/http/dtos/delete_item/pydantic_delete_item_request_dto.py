@@ -6,13 +6,7 @@ from src.api.v1.inventory.application.delete_item.delete_item_dto import DeleteI
 class PydanticDeleteItemRequestDto(BaseModel):
     inventory_id: str
 
-    def to_application(self) -> DeleteItemDTO:
+    def to_application(self, session_token: str) -> DeleteItemDTO:
         return DeleteItemDTO(
-            inventory_id=self.inventory_id,
-        )
-
-    @classmethod
-    def from_application(cls, app_dto: DeleteItemDTO) -> "PydanticDeleteItemRequestDto":
-        return cls(
-            inventory_id=app_dto.inventory_id,
+            inventory_id=self.inventory_id, session_token=session_token
         )

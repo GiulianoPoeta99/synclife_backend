@@ -8,26 +8,40 @@ from src.api.v1.notes.domain.validators.notes.notes_repository_validator import 
     NotesRepositoryValidator,
 )
 from src.api.v1.notes.domain.validators.notes.notes_validator import NotesValidator
+from src.api.v1.shared.domain.repositories.session_repository import SessionRepository
+from src.api.v1.shared.domain.validators.session_repository_validator import (
+    SessionRepositoryValidator,
+)
 from src.api.v1.shared.domain.value_objects import Uuid
 
 
 class UpdateNoteUseCase:
-    def __init__(self, repository: NotesRepository) -> None:
-        self.repository = repository
+    def __init__(
+        self, note_repository: NotesRepository, session_repository: SessionRepository
+    ) -> None:
+        self.__note_repository = note_repository
+        self.__session_repository = session_repository
 
     # Valida que el inventario existe
     def execute(self, dto: UpdateNoteDTO) -> Notes:
+        user_request_uuid = SessionRepositoryValidator.validate_session_token(
+            self.__session_repository, dto.session_token
+        )
+
         note = NotesRepositoryValidator.note_found(
-            self.repository.find_by_id(Uuid(dto.note_id))
+            self.__note_repository.find_by_id(Uuid(dto.note_id))
+        )
+
+        SessionRepositoryValidator.validate_permission(
+            Uuid(user_request_uuid), note.user_id
         )
 
         # Actualiza la nota
-
         note.title = NotesValidator.validate_title(dto.title)
         note.content = NotesValidator.validate_content(dto.title, dto.content)
         note.updated_at = datetime.datetime.now()
 
-        is_updated, updated_note = self.repository.update(note)
+        is_updated, updated_note = self.__note_repository.update(note)
 
         if not is_updated or updated_note is None:
             raise NotesError(NotesTypeError.OPERATION_FAILED)

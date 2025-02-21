@@ -15,7 +15,7 @@ class PydanticChangePersonalInformationRequestDto(BaseModel):
     birth_date: date
     phone: str
 
-    def to_application(self) -> ChangePersonalInformationDto:
+    def to_application(self, session_token: str) -> ChangePersonalInformationDto:
         return ChangePersonalInformationDto(
             uuid=self.uuid,
             email=self.email,
@@ -23,17 +23,5 @@ class PydanticChangePersonalInformationRequestDto(BaseModel):
             last_name=self.last_name,
             birth_date=self.birth_date,
             phone=self.phone,
-        )
-
-    @classmethod
-    def from_application(
-        cls, app_dto: ChangePersonalInformationDto
-    ) -> "PydanticChangePersonalInformationRequestDto":
-        return cls(
-            uuid=app_dto.uuid,
-            email=app_dto.email,
-            first_name=app_dto.first_name,
-            last_name=app_dto.last_name,
-            birth_date=app_dto.birth_date,
-            phone=app_dto.phone,
+            session_token=session_token,
         )

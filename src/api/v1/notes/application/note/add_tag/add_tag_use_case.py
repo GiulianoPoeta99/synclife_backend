@@ -9,41 +9,56 @@ from src.api.v1.notes.domain.validators.notes.notes_repository_validator import 
 from src.api.v1.notes.domain.validators.tags.tags_repository_validator import (
     TagsRepositoryValidator,
 )
+from src.api.v1.shared.domain.repositories.session_repository import SessionRepository
+from src.api.v1.shared.domain.validators.session_repository_validator import (
+    SessionRepositoryValidator,
+)
 from src.api.v1.shared.domain.value_objects import Uuid
 
 
 class AddTagsUseCase:
     def __init__(
-        self, notes_repository: NotesRepository, tags_repository: TagsRepository
+        self,
+        notes_repository: NotesRepository,
+        tags_repository: TagsRepository,
+        session_repository: SessionRepository,
     ):
-        self.notes_repository = notes_repository
-        self.tags_repository = tags_repository
+        self.__notes_repository = notes_repository
+        self.__tags_repository = tags_repository
+        self.__session_repository = session_repository
 
-    def execute(self, dto: AddTagsDTO, user_id: Uuid) -> Notes:
+    def execute(self, dto: AddTagsDTO) -> Notes:
+        user_request_uuid = SessionRepositoryValidator.validate_session_token(
+            self.__session_repository, dto.session_token
+        )
 
         # Valida que la nota exista
         note = NotesRepositoryValidator.note_found(
-            self.notes_repository.find_by_id(Uuid(dto.note_id))
+            self.__notes_repository.find_by_id(Uuid(dto.note_id))
         )
 
-        if note.user_id != user_id:
+        SessionRepositoryValidator.validate_permission(
+            Uuid(user_request_uuid), note.user_id
+        )
+
+        if note.user_id != user_request_uuid:
             raise NotesError(NotesTypeError.NOTE_NOT_OWNED)
 
         # Valida los tags
         for tag_id in dto.tags:
             tag = TagsRepositoryValidator.tag_found(
-                self.tags_repository.find_by_id(Uuid(tag_id))
+                self.__tags_repository.find_by_id(Uuid(tag_id))
             )
 
-            if tag.user_id != user_id:
+            if tag.user_id != user_request_uuid:
                 raise NotesError(NotesTypeError.NOTE_NOT_OWNED)
 
             # Agrea el tagsillo a la notita
             note.add_tag(tag)
 
         # Actualiza la nota
-        updated = self.notes_repository.update(note)
+        updated = self.__notes_repository.update(note)
         if not updated:
-            print("Error al actualizar la nota en el repositorio")
+            raise NotesError(NotesTypeError.OPERATION_FAILED)
 
         return note

@@ -4,6 +4,10 @@ from src.api.v1.notes.domain.repositories import NotesRepository
 from src.api.v1.notes.domain.validators.notes.notes_repository_validator import (
     NotesRepositoryValidator,
 )
+from src.api.v1.shared.domain.repositories.session_repository import SessionRepository
+from src.api.v1.shared.domain.validators.session_repository_validator import (
+    SessionRepositoryValidator,
+)
 from src.api.v1.shared.domain.value_objects import Uuid
 from src.api.v1.user.domain.repositories import UserRepository
 from src.api.v1.user.domain.validators.user_repository_validator import (
@@ -12,20 +16,33 @@ from src.api.v1.user.domain.validators.user_repository_validator import (
 
 
 class CreateNoteUseCase:
-    def __init__(self, repository: NotesRepository, user_repository: UserRepository):
-        self.repository = repository
-        self.user_repository = user_repository
+    def __init__(
+        self,
+        note_repository: NotesRepository,
+        user_repository: UserRepository,
+        session_repository: SessionRepository,
+    ):
+        self.__note_repository = note_repository
+        self.__user_repository = user_repository
+        self.__session_repository = session_repository
 
     def execute(self, dto: CreateNoteDto) -> Notes:
+        user_request_uuid = SessionRepositoryValidator.validate_session_token(
+            self.__session_repository, dto.session_token
+        )
+
+        SessionRepositoryValidator.validate_permission(
+            Uuid(user_request_uuid), Uuid(dto.user_id)
+        )
 
         # Valida si el usuario existe
         UserRepositoryValidator.user_found(
-            self.user_repository.find_by_id(Uuid(dto.user_id))
+            self.__user_repository.find_by_id(Uuid(dto.user_id))
         )
 
         # Valida que no haya otra nota con el mismo titulo
         NotesRepositoryValidator.note_title_unique(
-            self.repository, dto.title, Uuid(dto.user_id)
+            self.__note_repository, dto.title, Uuid(dto.user_id)
         )
 
         # Crear y guadar notita
@@ -43,5 +60,5 @@ class CreateNoteUseCase:
         el content
         """
 
-        self.repository.save(note)
+        self.__note_repository.save(note)
         return note

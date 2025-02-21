@@ -27,11 +27,10 @@ from src.api.v1.reminder.infrastructure.persistence.repositories import (
     SqlModelReminderRepository,
 )
 from src.api.v1.shared.domain.value_objects import Uuid
+from src.api.v1.shared.infrastructure.http.decorators import handle_exceptions
 from src.api.v1.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
     SqlModelUserRepository,
 )
-
-from .exeption_handler import handle_exceptions
 
 
 class FastApiReminderController:

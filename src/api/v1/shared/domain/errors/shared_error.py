@@ -1,3 +1,7 @@
+from typing import Dict
+
+
 class SharedError(Exception):
-    def __init__(self, error_message: str):
-        super().__init__(f"Error de Shared: {error_message}")
+    def __init__(self, error: Dict[str, int | str]):
+        super().__init__(error["msg"])
+        self.code = error["code"]

@@ -1,13 +1,12 @@
 import uuid
-from typing import Optional
 
 from src.api.v1.shared.domain.errors import UuidError, UuidTypeError
 
 
 class Uuid:
-    __uuid: Optional[str]
+    __uuid: str
 
-    def __init__(self, uuid: Optional[str] = None) -> None:
+    def __init__(self, uuid: str = "") -> None:
         self.uuid = uuid
 
     def __repr__(self) -> str:
@@ -20,12 +19,12 @@ class Uuid:
         return self.uuid if self.uuid else ""
 
     @property
-    def uuid(self) -> Optional[str]:
+    def uuid(self) -> str:
         return self.__uuid
 
     @uuid.setter
-    def uuid(self, value: Optional[str]) -> None:
-        if value:
+    def uuid(self, value: str) -> None:
+        if value == "":
             try:
                 self.__uuid = str(uuid.UUID(value))
             except ValueError:

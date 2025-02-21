@@ -1,6 +1,4 @@
-from typing import List
-
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Header
 
 from src.api.v1.notes.infrastructure.http.controllers.tags.fastapi_tags_controller import (  # noqa: E501
     FastApiTagsController,
@@ -8,48 +6,52 @@ from src.api.v1.notes.infrastructure.http.controllers.tags.fastapi_tags_controll
 from src.api.v1.notes.infrastructure.http.dtos.tags import (
     PydanticCreateTagRequestDto,
     PydanticCreateTagResponseDto,
+    PydanticDeleteTagRequestDto,
     PydanticDeleteTagResponseDto,
     PydanticUpdateTagsRequestDto,
     PydanticUpdateTagsResponseDto,
+    PydanticViewAllTagsResponseDto,
+    PydanticViewTagsRequestDto,
     PydanticViewTagsResponseDto,
 )
-from src.api.v1.user.infrastructure.http.services import InMemorySessionService
 
 router: APIRouter = APIRouter(prefix="/tags", tags=["Tags"])
 
 
-@router.post("/create", response_model=PydanticCreateTagResponseDto)
+@router.post("/", response_model=PydanticCreateTagResponseDto)
 async def create_tag(
     dto: PydanticCreateTagRequestDto,
-    user_id: str = Depends(InMemorySessionService.validate_session_token),
+    session_token: str = Header(...),
 ) -> PydanticCreateTagResponseDto:
-    return await FastApiTagsController.create(dto, user_id)
+    return await FastApiTagsController.create(dto, session_token)
 
 
-@router.get("/view/{tag_id}", response_model=PydanticViewTagsResponseDto)
+@router.get("/{tag_id}", response_model=PydanticViewTagsResponseDto)
 async def view_tag(
-    tag_id: str, user_id: str = Depends(InMemorySessionService.validate_session_token)
+    dto: PydanticViewTagsRequestDto,
+    session_token: str = Header(...),
 ) -> PydanticViewTagsResponseDto:
-    return await FastApiTagsController.view(tag_id, user_id)
+    return await FastApiTagsController.view(dto, session_token)
 
 
-@router.get("/view_all", response_model=List[PydanticViewTagsResponseDto])
+@router.get("/", response_model=PydanticViewAllTagsResponseDto)
 async def view_all_tags(
-    user_id: str = Depends(InMemorySessionService.validate_session_token),
-) -> List[PydanticViewTagsResponseDto]:
-    return await FastApiTagsController.view_all(user_id)
+    session_token: str = Header(...),
+) -> PydanticViewAllTagsResponseDto:
+    return await FastApiTagsController.view_all(session_token)
 
 
-@router.put("/update", response_model=PydanticUpdateTagsResponseDto)
+@router.put("/", response_model=PydanticUpdateTagsResponseDto)
 async def update_tags(
     dto: PydanticUpdateTagsRequestDto,
-    user_id: str = Depends(InMemorySessionService.validate_session_token),
+    session_token: str = Header(...),
 ) -> PydanticUpdateTagsResponseDto:
-    return await FastApiTagsController.update(dto, user_id)
+    return await FastApiTagsController.update(dto, session_token)
 
 
-@router.delete("/delete/{tag_id}", response_model=PydanticDeleteTagResponseDto)
+@router.delete("/{tag_id}", response_model=PydanticDeleteTagResponseDto)
 async def delete_tag(
-    tag_id: str, user_id: str = Depends(InMemorySessionService.validate_session_token)
+    dto: PydanticDeleteTagRequestDto,
+    session_token: str = Header(...),
 ) -> PydanticDeleteTagResponseDto:
-    return await FastApiTagsController.delete(tag_id, user_id)
+    return await FastApiTagsController.delete(dto, session_token)

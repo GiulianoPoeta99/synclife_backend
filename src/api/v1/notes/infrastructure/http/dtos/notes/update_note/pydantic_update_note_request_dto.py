@@ -8,11 +8,12 @@ class PydanticUpdateNotesRequestDto(BaseModel):
     title: str
     content: str
 
-    def to_application(self) -> UpdateNoteDTO:
+    def to_application(self, session_token: str) -> UpdateNoteDTO:
         return UpdateNoteDTO(
             note_id=self.note_id,
             title=self.title,
             content=self.content,
+            session_token=session_token,
         )
 
     @classmethod

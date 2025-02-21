@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel
 
 from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
@@ -6,4 +8,4 @@ from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_notes_model imp
 
 
 class PydanticFilterNotesByTagResponseDto(BaseModel):
-    note: SqlModelNotesModel
+    notes: List[SqlModelNotesModel]
