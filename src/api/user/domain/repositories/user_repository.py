@@ -92,7 +92,7 @@ class UserRepository(ABC):
 
         Returns:
             Tuple[bool, Optional[User]]: A tuple where the first value indicates whether
-                                         the deletion was successful and the second 
+                                         the deletion was successful and the second
                                          value is the deleted user (or None if not found
                                          or not deleted).
         """
