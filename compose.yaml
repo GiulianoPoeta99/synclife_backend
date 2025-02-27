@@ -1,0 +1,32 @@
+name: ${CONTAINER_NAME:?container name is not defined...}-databases
+services: 
+  postgres:
+    restart: ${RESTART:-no}
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    env_file:
+      - ./.env
+    container_name: postgres-${CONTAINER_NAME:?container name is not defined...}
+    image: postgres:${POSTGRES_VERSION:-latest}
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+    volumes:
+      - ./docker/volumes/postgres/data:/var/lib/postgresql/data
+      - ./docker/volumes/postgres/backups:/backups
+
+  dragonfly:
+    restart: ${RESTART:-no}
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    env_file:
+      - ./.env
+    container_name: dragonfly-${CONTAINER_NAME:?container name is not defined...}
+    image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
+    command: ["dragonfly", "--requirepass=${DRAGONFLY_PASS}", "--bind=0.0.0.0", "--port=6379"]
+    ulimits:
+      memlock: -1
+    ports:
+      - "${DRAGONFLY_PORT}:6379"
+    volumes:
+      - ./docker/volumes/dragonfly/data:/data
+      - ./docker/volumes/dragonfly/backups:/backups
