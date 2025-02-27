@@ -9,6 +9,7 @@
       "application",
       "module",
       "migrations",
-      "infrastructure"
+      "infrastructure",
+      "containers"
    ]
 }
