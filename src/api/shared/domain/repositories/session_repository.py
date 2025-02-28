@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
+from src.api.shared.domain.value_objects import Uuid
+
 
 class SessionRepository(ABC):
-
     @abstractmethod
-    def create_session(self, user_id: str) -> str:
+    def create_session(self, user_id: Uuid) -> str:
         pass
 
     @abstractmethod

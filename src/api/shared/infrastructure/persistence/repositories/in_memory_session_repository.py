@@ -13,7 +13,7 @@ class InMemorySessionRepository(SessionRepository):
     def get_repository() -> "InMemorySessionRepository":
         return InMemorySessionRepository()
 
-    def create_session(self, user_id: str) -> str:
+    def create_session(self, user_id: Uuid) -> str:
         session_token = Uuid()
         self._sessions[str(session_token)] = {
             "user_id": user_id,
