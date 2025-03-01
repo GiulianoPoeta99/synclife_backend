@@ -80,6 +80,7 @@ class SqlModelUserRepository(UserRepository):
             "password": user.password.password,
             "first_name": user.full_name.first_name,
             "last_name": user.full_name.last_name,
+            "account_verified": user.account_verified,
             "birth_date": user.birth_date,
             "phone": user.phone.phone,
         }

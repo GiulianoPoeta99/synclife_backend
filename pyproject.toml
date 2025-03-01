@@ -19,6 +19,7 @@ python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.10"
 zxcvbn = "^4.4.28"
 isort = "^5.13.2"
+redis = "^5.2.1"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.15.0"

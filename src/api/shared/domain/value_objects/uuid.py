@@ -24,7 +24,7 @@ class Uuid:
 
     @uuid.setter
     def uuid(self, value: str) -> None:
-        if value == "":
+        if not value == "":
             try:
                 self.__uuid = str(uuid.UUID(value))
             except ValueError:

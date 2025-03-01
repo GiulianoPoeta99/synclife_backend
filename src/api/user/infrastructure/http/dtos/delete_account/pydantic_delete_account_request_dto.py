@@ -1,12 +1,10 @@
 from pydantic import BaseModel
 
 from src.api.user.application.account_management.delete_account.delete_account_dto import (  # noqa: E501
-    DeleteAccountDto,
+    DeleteAccountDTO,
 )
 
 
 class PydanticDeleteAccountRequestDto(BaseModel):
-    uuid: str
-
-    def to_application(self, session_token: str) -> DeleteAccountDto:
-        return DeleteAccountDto(uuid=self.uuid, session_token=session_token)
+    def to_application(self, session_token: str) -> DeleteAccountDTO:
+        return DeleteAccountDTO(session_token=session_token)

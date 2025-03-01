@@ -15,6 +15,8 @@ from src.api.user.infrastructure.http.dtos import (
     PydanticLoginResponseDto,
     PydanticRegisterRequestDto,
     PydanticRegisterResponseDto,
+    PydanticVerifyAccountRequestDTO,
+    PydanticVerifyAccountResponseDTO,
     PydanticViewAccountRequestDto,
     PydanticViewAccountResponseDto,
 )
@@ -27,6 +29,18 @@ async def register_user(
     dto: PydanticRegisterRequestDto,
 ) -> PydanticRegisterResponseDto:
     return await FastApiAuthenticationController.register(dto)
+
+
+@router.get(
+    "/{validate_token}",
+    response_model=PydanticVerifyAccountResponseDTO,
+)
+async def verify_account(
+    validate_token: str,
+) -> PydanticVerifyAccountResponseDTO:
+    return await FastApiAuthenticationController.validate_account(
+        PydanticVerifyAccountRequestDTO(validate_token=validate_token)
+    )
 
 
 @router.post("/login", response_model=PydanticLoginResponseDto)

@@ -10,7 +10,7 @@ from src.api.shared.infrastructure.persistence.repositories import (
 )
 from src.api.user.infrastructure.http.routes import user_router
 
-router: APIRouter = APIRouter(prefix="/v1")
+router: APIRouter = APIRouter()
 
 router.include_router(user_router)
 router.include_router(inventory_router)

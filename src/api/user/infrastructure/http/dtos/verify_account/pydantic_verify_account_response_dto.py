@@ -5,5 +5,6 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 )
 
 
-class PydanticRegisterResponseDto(BaseModel):
+class PydanticVerifyAccountResponseDTO(BaseModel):
     user: SqlModelUserModel
+    session_token: str

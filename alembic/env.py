@@ -36,7 +36,7 @@ load_dotenv()
 # Construir el URL de la base de datos
 DB = os.getenv("POSTGRES_DB")
 USER = os.getenv("POSTGRES_USER")
-PASS = os.getenv("POSTGRES_PASS")
+PASS = os.getenv("POSTGRES_PASSWORD")
 HOST = os.getenv("POSTGRES_HOST")
 PORT = os.getenv("POSTGRES_PORT")
 

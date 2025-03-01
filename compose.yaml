@@ -1,4 +1,4 @@
-name: ${CONTAINER_NAME:?container name is not defined...}-databases
+name: ${CONTAINER_NAME:?container name is not defined...}
 services: 
   postgres:
     restart: ${RESTART:-no}
@@ -26,7 +26,29 @@ services:
     ulimits:
       memlock: -1
     ports:
-      - "${DRAGONFLY_PORT}:6379"
+      - "${DRAGONFLY_PORT:-6379}:6379"
     volumes:
       - ./docker/volumes/dragonfly/data:/data
       - ./docker/volumes/dragonfly/backups:/backups
+
+  mailhog:
+    restart: ${RESTART:-no}
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    env_file:
+      - ./.env
+    container_name: mailhog-${CONTAINER_NAME:?container name is not defined...}
+    image: 'mailhog/mailhog:latest'
+    ports:
+        - '${MAILHOG_PORT:-1025}:1025'
+        - '${MAILHOG_DASHBOARD_PORT:-8025}:8025'
+
+  # fastapi:
+  #   restart: ${RESTART:-no}
+  #   extra_hosts:
+  #     - host.docker.internal:host-gateway
+  #   env_file:
+  #     - ./.env
+  #   container_name: fastapi-${CONTAINER_NAME:?container name is not defined...}
+  #   build:
+  #     dockerfile: ./docker/Dockerfile

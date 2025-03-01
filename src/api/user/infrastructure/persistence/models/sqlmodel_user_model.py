@@ -39,6 +39,7 @@ class SqlModelUserModel(SQLModel, table=True):
     last_name: str
     birth_date: date
     phone: str
+    account_verified: bool = Field(default=False)
     is_deleted: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: Optional[datetime] = Field(default=None)
@@ -63,6 +64,7 @@ class SqlModelUserModel(SQLModel, table=True):
             last_name=entity.full_name.last_name,
             birth_date=entity.birth_date,
             phone=entity.phone.phone,
+            account_verified=entity.account_verified,
             is_deleted=entity.is_deleted,
             created_at=entity.created_at,
             updated_at=entity.updated_at,
@@ -76,6 +78,7 @@ class SqlModelUserModel(SQLModel, table=True):
             full_name=FullName(self.first_name, self.last_name),
             birth_date=self.birth_date,
             phone=Phone(self.phone),
+            account_verified=self.account_verified,
             is_deleted=self.is_deleted,
             created_at=self.created_at,
             updated_at=self.updated_at,

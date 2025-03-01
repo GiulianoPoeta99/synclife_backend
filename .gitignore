@@ -15,5 +15,5 @@ venv/
 ENV/
 env.bak/
 venv.bak/"
-docker
+docker/volumes
 docker-compose.yml

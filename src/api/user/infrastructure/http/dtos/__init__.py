@@ -12,6 +12,10 @@ from .delete_account import (
 )
 from .login import PydanticLoginRequestDto, PydanticLoginResponseDto
 from .register import PydanticRegisterRequestDto, PydanticRegisterResponseDto
+from .verify_account import (
+    PydanticVerifyAccountRequestDTO,
+    PydanticVerifyAccountResponseDTO,
+)
 from .view_account import PydanticViewAccountRequestDto, PydanticViewAccountResponseDto
 
 __all__ = [
@@ -27,4 +31,6 @@ __all__ = [
     "PydanticChangePasswordResponseDto",
     "PydanticChangePersonalInformationRequestDto",
     "PydanticChangePersonalInformationResponseDto",
+    "PydanticVerifyAccountRequestDTO",
+    "PydanticVerifyAccountResponseDTO",
 ]
